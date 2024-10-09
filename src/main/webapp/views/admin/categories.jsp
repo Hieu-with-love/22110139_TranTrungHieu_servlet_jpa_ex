@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/commons/taglib.jsp" %>
 
 <a href="${pageContext.request.contextPath}/admin/category/add">Add Category</a>
 <table border="1" width="100%">
