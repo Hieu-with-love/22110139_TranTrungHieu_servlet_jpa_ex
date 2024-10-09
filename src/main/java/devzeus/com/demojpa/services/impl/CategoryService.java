@@ -1,16 +1,16 @@
 package devzeus.com.demojpa.services.impl;
 
 import devzeus.com.demojpa.daos.ICategoryDao;
+import devzeus.com.demojpa.daos.ipml.CategoryDao;
 import devzeus.com.demojpa.entities.Category;
 import devzeus.com.demojpa.services.ICategoryService;
 
 import java.util.List;
 
 public class CategoryService implements ICategoryService {
-    ICategoryDao categoryDao;
+    ICategoryDao categoryDao = new CategoryDao();
 
-    public CategoryService(ICategoryDao categoryDao) {
-        this.categoryDao = categoryDao;
+    public CategoryService() {
     }
 
     @Override

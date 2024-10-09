@@ -24,7 +24,7 @@ import java.util.List;
         "/admin/category/update", "/admin/category/delete", "/admin/category/search"})
 public class CategoryController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    public ICategoryService categoryService = new CategoryServiceImpl();
+    public ICategoryService categoryService = new CategoryService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
