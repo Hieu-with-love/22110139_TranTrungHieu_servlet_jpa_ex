@@ -170,12 +170,12 @@ public class CategoryController extends HttpServlet {
         category.setStatus(status);
         categoryService.insert(category);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/admin/categories");
+        resp.sendRedirect(req.getContextPath() + "/admin/categories.jsp");
     }
 
     private void showCategories(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Category> categories = categoryService.findAll();
         req.setAttribute("categories", categories);
-        req.getRequestDispatcher("/views/admin/categories").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/categories.jsp").forward(req, resp);
     }
 }
