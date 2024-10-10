@@ -1,15 +1,15 @@
 package devzeus.com.demojpa.controllers.admin;
 
+import devzeus.com.demojpa.entities.Category;
+import devzeus.com.demojpa.entities.Video;
+import devzeus.com.demojpa.services.IVideoService;
+import devzeus.com.demojpa.services.impl.VideoService;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import devzeus.com.demojpa.entities.Category;
-import devzeus.com.demojpa.services.ICategoryService;
-import devzeus.com.demojpa.services.impl.CategoryService;
 import devzeus.com.demojpa.ultils.Constant;
 
 import java.io.File;
@@ -17,19 +17,20 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50) // 50MB
-@WebServlet(urlPatterns = {"/admin/categories", "/admin/category/add", "/admin/category/edit",
-        "/admin/category/update", "/admin/category/delete", "/admin/category/search"})
-public class CategoryController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    public ICategoryService categoryService = new CategoryService();
+@WebServlet(urlPatterns = {"/admin/videos", "/admin/video/add", "/admin/video/edit",
+                            "/admin/video/delete"})
+public class VideoController extends HttpServlet {
+    IVideoService videoService = new VideoService();
+
+    private void showCategories(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Video> videos = videoService.findAll();
+        req.setAttribute("video", videos);
+        req.getRequestDispatcher("/views/admin/video/video-list").forward(req, resp);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getRequestURI();
-
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
@@ -38,28 +39,28 @@ public class CategoryController extends HttpServlet {
             showCategories(req, resp);
         } else if (url.contains("/admin/category/add")) {
             // Show form add category
-            req.getRequestDispatcher("/views/admin/category-add").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/video/video-add.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/edit")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
             // Get data from database
-            Category category = categoryService.findById(id);
+            Video video = videoService.findById(id);
             // Set data to form
-            req.setAttribute("category", category);
+            req.setAttribute("video", video);
             // Show form edit category
-            req.getRequestDispatcher("/views/admin/category-edit").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/video/video-edit.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/delete")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
             // Delete data from database
             // Suggest delete image file on device !!!
             try {
-                categoryService.delete(id);
+                videoService.delete(id);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
             // Show list categories
-            resp.sendRedirect(req.getContextPath() + "/admin/categories");
+            resp.sendRedirect(req.getContextPath() + "/admin/video/video-list");
 
         }
     }
@@ -70,16 +71,12 @@ public class CategoryController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
-        if (url.contains("add")) {
-            addCategory(req, resp);
-        } else if (url.contains("category/edit")) {
-            editCategory(req, resp);
-        } else if (url.contains("category/delete")) {
-            try {
-                deleteCategory(req, resp);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (url.contains("/video/add")){
+            createVideo(req, resp);
+        }else if (url.contains("/video/edit")){
+            updateVideo(req, resp);
+        }else if (url.contains("/video/delete")){
+            deleteVideo(req, resp);
         }
     }
 
@@ -138,8 +135,11 @@ public class CategoryController extends HttpServlet {
 
     private void addCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get data from form
-        String name = req.getParameter("name");
-        int status = Integer.parseInt(req.getParameter("status"));
+        String description = req.getParameter("description");
+        String title = req.getParameter("title");
+        String poster = req.getParameter("poster");
+        int views = Integer.parseInt(req.getParameter("views"));
+        int status = Integer.parseInt(req.getParameter("active"));
         // Get file from form
         String fname = "";
         String uploadPath = Constant.UPLOAD_DIR;
@@ -164,18 +164,15 @@ public class CategoryController extends HttpServlet {
         }
 
         // Insert data to database
-        Category category = new Category();
-        category.setName(name);
-        category.setImage(fname);
-        category.setStatus(status);
-        categoryService.insert(category);
+        Video video = new Video();
+        video.setDescription(description);
+        video.setTitle(title);
+        video.setPoster(poster);
+        video.setViews(views);
+        video.setActive(status);
+        videoService.insert(video);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/admin/categories");
+        resp.sendRedirect(req.getContextPath() + "/admin/video/video-list");
     }
 
-    private void showCategories(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Category> categories = categoryService.findAll();
-        req.setAttribute("categories", categories);
-        req.getRequestDispatcher("/views/admin/categories").forward(req, resp);
-    }
 }
