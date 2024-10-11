@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/commons/taglib.jsp"%>
 
-<form action="${pageContext.request.contextPath}/admin/category/add" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/admin/video/add" method="post" enctype="multipart/form-data">
     <label for="title">Title:</label><br>
     <input type="text" id="title" name="title"><br>
 
@@ -18,18 +18,12 @@
     <input type="file" onchange="chooseFile(this)" id="imageUpload" name="imageUpload"><br><br>
 
     <label for="description">Description:</label><br>
-    <input type="text" id="description" name="title"><br>
+    <input type="text" id="description" name="description"><br>
     <p>Status:</p>
     <input type="radio" id="statuson" name="status" value="1" checked>
     <label for="statuson">Active</label><br>
     <input type="radio" id="statusoff" name="status" value="0">
     <label for="statusoff">Inactive</label><br><br>
-    <p>View:</p>
-    <input type="radio" id="viewon" name="status" value="1" checked>
-    <label for="viewon">Active</label><br>
-    <input type="radio" id="viewoff" name="status" value="0">
-    <label for="viewoff">Inactive</label><br><br>
 
-
-    <input type="submit" value="Insert">
+    <button type="submit">Tạo video</button>
 </form>

@@ -38,7 +38,7 @@ public class CategoryController extends HttpServlet {
             showCategories(req, resp);
         } else if (url.contains("/admin/category/add")) {
             // Show form add category
-            req.getRequestDispatcher("/views/admin/category-add").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/category-add.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/edit")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
@@ -47,7 +47,7 @@ public class CategoryController extends HttpServlet {
             // Set data to form
             req.setAttribute("category", category);
             // Show form edit category
-            req.getRequestDispatcher("/views/admin/category-edit").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/category-edit.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/delete")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
@@ -59,7 +59,7 @@ public class CategoryController extends HttpServlet {
                 throw new RuntimeException(e);
             }
             // Show list categories
-            resp.sendRedirect(req.getContextPath() + "/admin/categories");
+            resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
 
         }
     }
@@ -133,7 +133,7 @@ public class CategoryController extends HttpServlet {
         category.setStatus(status);
         categoryService.update(category);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/admin/categories");
+        resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
     }
 
     private void addCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -170,7 +170,7 @@ public class CategoryController extends HttpServlet {
         category.setStatus(status);
         categoryService.insert(category);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/admin/categories.jsp");
+        resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
     }
 
     private void showCategories(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

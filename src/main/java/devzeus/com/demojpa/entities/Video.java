@@ -15,7 +15,7 @@ public class Video implements Serializable {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "Active")
+    @Column(name = "active")
     private int active;
 
     @Column(name = "description", columnDefinition = "NVARCHAR(500) NULL")

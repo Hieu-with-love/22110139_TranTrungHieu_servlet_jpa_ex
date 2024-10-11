@@ -60,7 +60,7 @@ public class VideoController extends HttpServlet {
                 throw new RuntimeException(e);
             }
             // Show list categories
-            resp.sendRedirect(req.getContextPath() + "/admin/video-list.jsp");
+            resp.sendRedirect(req.getContextPath() + "/views/admin/video-list.jsp");
 
         }
     }
@@ -100,9 +100,10 @@ public class VideoController extends HttpServlet {
         // Get data from form
         String description = req.getParameter("description");
         String title = req.getParameter("title");
-        String poster = req.getParameter("poster");
-        int views = Integer.parseInt(req.getParameter("views"));
-        int status = Integer.parseInt(req.getParameter("active"));
+        if (req.getParameter("poster") != null){
+            String poster = req.getParameter("poster");
+        }
+        int status = Integer.parseInt(req.getParameter("Active"));
         // Get file from form
         String fname = "";
         String uploadPath = Constant.UPLOAD_DIR;
@@ -136,19 +137,16 @@ public class VideoController extends HttpServlet {
         video.setPoster(fname);
         video.setActive(status);
         video.setDescription(description);
-        video.setViews(views);
         videoService.update(video);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/admin/video-list");
+        resp.sendRedirect(req.getContextPath() + "/views/admin/video-list");
     }
 
     private void createVideo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get data from form
-        String description = req.getParameter("description");
         String title = req.getParameter("title");
-        String poster = req.getParameter("poster");
-        int views = Integer.parseInt(req.getParameter("views"));
-        int status = Integer.parseInt(req.getParameter("active"));
+        String description = req.getParameter("description");
+        int status = Integer.parseInt(req.getParameter("status"));
         // Get file from form
         String fname = "";
         String uploadPath = Constant.UPLOAD_DIR;
@@ -166,7 +164,7 @@ public class VideoController extends HttpServlet {
                 filePart.write(uploadPath + "/" + fname);
             } else {
                 // Default image
-                fname = req.getParameter("image");
+                fname = req.getParameter("poster");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,12 +174,11 @@ public class VideoController extends HttpServlet {
         Video video = new Video();
         video.setDescription(description);
         video.setTitle(title);
-        video.setPoster(poster);
-        video.setViews(views);
+        video.setPoster(fname);
         video.setActive(status);
         videoService.insert(video);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/admin/video-list.jsp");
+        resp.sendRedirect(req.getContextPath() + "/views/admin/video-list.jsp");
     }
 
 }
