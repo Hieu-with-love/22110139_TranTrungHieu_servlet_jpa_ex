@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/commons/taglib.jsp"%>
 
-<form action="${pageContext.request.contextPath}/admin/category/add" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/admin/register" method="post" enctype="multipart/form-data">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username" placeholder="Enter username"><br>
 
@@ -34,5 +34,5 @@
     <input type="radio" id="statusoff" name="active" value="0">
     <label for="statusoff">Inactive</label><br><br>
 
-    <input type="submit" value="Insert">
+    <button type="submit">Tạo user</button>
 </form>

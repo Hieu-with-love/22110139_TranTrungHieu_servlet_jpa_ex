@@ -8,6 +8,7 @@ import devzeus.com.demojpa.services.impl.CategoryService;
 import devzeus.com.demojpa.services.impl.UserService;
 import devzeus.com.demojpa.ultils.Constant;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,9 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
 @WebServlet(urlPatterns = {"/admin/register", "/admin/users", "/admin/user"})
 public class UserController extends HttpServlet implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -70,11 +74,11 @@ public class UserController extends HttpServlet implements Serializable {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
-        if (url.contains("add")) {
+        if (url.contains("register")) {
             registerUser(req, resp);
-        } else if (url.contains("category/edit")) {
+        } else if (url.contains("user/edit")) {
             //editUser(req, resp);
-        } else if (url.contains("category/delete")) {
+        } else if (url.contains("user/delete")) {
             try {
                 //deleteUser(req, resp);
             } catch (Exception e) {
