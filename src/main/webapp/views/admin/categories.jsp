@@ -23,15 +23,15 @@
     <tr class="odd gradeX">
         <td>${STT.index + 1}</td>
         <td>
-            <c:choose>
-                <c:when test="${not empty cate.image && cate.image.startsWith('https')}">
-                    <c:url var="imgUrl" value="${cate.image}"></c:url>
-                </c:when>
-                <c:otherwise>
-                    <c:url var="imgUrl" value="/downloadFile?fname=${cate.image}"></c:url>
-                </c:otherwise>
-            </c:choose>
-            <img height="150" width="200" src="${imgUrl}" />
+            <c:if test="${cate.image.substring(0,5) == 'https'}">
+                <c:url value="${cate.image}" var="imgUrl"></c:url>
+            </c:if>
+            <c:if test="${cate.image.substring(0,5) != 'https'}">
+                <c:url value="/images?fname=${cate.image}" var="imgUrl"></c:url>
+            </c:if>
+        <td>
+            <img id="images" height="200" width="150" src="${imgUrl}">
+        </td>
         </td>
         <td>${cate.id}</td>
         <td>${cate.name}</td>

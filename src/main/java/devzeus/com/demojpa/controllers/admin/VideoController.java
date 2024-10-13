@@ -2,7 +2,9 @@ package devzeus.com.demojpa.controllers.admin;
 
 import devzeus.com.demojpa.entities.Category;
 import devzeus.com.demojpa.entities.Video;
+import devzeus.com.demojpa.services.ICategoryService;
 import devzeus.com.demojpa.services.IVideoService;
+import devzeus.com.demojpa.services.impl.CategoryService;
 import devzeus.com.demojpa.services.impl.VideoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,6 +23,7 @@ import java.util.List;
                             "/admin/video/delete"})
 public class VideoController extends HttpServlet {
     IVideoService videoService = new VideoService();
+    ICategoryService categoryService = new CategoryService();
 
     private void showVideos(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Video> videos = videoService.findAll();
@@ -144,41 +147,23 @@ public class VideoController extends HttpServlet {
 
     private void createVideo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get data from form
-        String title = req.getParameter("title");
+        int act = Integer.parseInt(req.getParameter("active"));
         String description = req.getParameter("description");
-        int status = Integer.parseInt(req.getParameter("status"));
-        // Get file from form
-        String fname = "";
-        String uploadPath = Constant.UPLOAD_DIR;
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir(); // Create folder if not exist
-        try {
-            Part filePart = req.getPart("imageUpload");
-            if (filePart.getSize() > 0) {
-                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                // Change file name
-                int index = fileName.lastIndexOf("."); // index of extend file .jpg, .png, .jpeg
-                String ext = fileName.substring(index + 1); // extend file .jpg, .png, .jpeg
-                fname = System.currentTimeMillis() + "." + ext;
-                // Write file path
-                filePart.write(uploadPath + "/" + fname);
-            } else {
-                // Default image
-                fname = req.getParameter("poster");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Insert data to database
+        String poster = req.getParameter("poster");
+        String title = req.getParameter("title");
+        int views = Integer.parseInt(req.getParameter("views"));
+        int cate = Integer.parseInt(req.getParameter("cate"));
+        Category category = categoryService.findById(cate);
         Video video = new Video();
+        video.setActive(act);
         video.setDescription(description);
+        video.setPoster(poster);
         video.setTitle(title);
-        video.setPoster(fname);
-        video.setActive(status);
+        video.setViews(views);
+        video.setCategory(category);
         videoService.insert(video);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/views/admin/video-list.jsp");
+        resp.sendRedirect(req.getContextPath() + "/admin/videos");
     }
 
 }

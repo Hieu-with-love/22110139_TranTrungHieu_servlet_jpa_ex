@@ -8,22 +8,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/commons/taglib.jsp"%>
 
-<form action="${pageContext.request.contextPath}/admin/video/add" method="post" enctype="multipart/form-data">
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title"><br>
-
-    <label for="poster">Link poster:</label><br>
-    <input type="text" id="poster" name="poster"><br>
-    <label for="imageUpload">Upload poster:</label><br>
-    <input type="file" onchange="chooseFile(this)" id="imageUpload" name="imageUpload"><br><br>
+<form action="<c:url value="/admin/video/add"/>" method="post">
+    <label for="css">Active</label><br>
+    <input type="radio" id="on" name="active" value="1">
+    <label for="javascript">Hoat dong</label>
+    <input type="radio" id="off" name="active" value="0">
+    <label for="html">Khoa</label>
 
     <label for="description">Description:</label><br>
     <input type="text" id="description" name="description"><br>
-    <p>Status:</p>
-    <input type="radio" id="statuson" name="status" value="1" checked>
-    <label for="statuson">Active</label><br>
-    <input type="radio" id="statusoff" name="status" value="0">
-    <label for="statusoff">Inactive</label><br><br>
 
-    <button type="submit">Tạo video</button>
+    <label for="poster">Poster:</label><br>
+    <input type="text" id="poster" name="poster"><br>
+
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title"><br>
+
+    <label for="views">Views:</label><br>
+    <input type="text" id="views" name="views"><br>
+    <br><br>
+
+    <label for="cate">Category:</label><br>
+    <input type="text" id="cate" name="cate"><br>
+    <br><br>
+
+    <input type="submit" value="Insert">
 </form>

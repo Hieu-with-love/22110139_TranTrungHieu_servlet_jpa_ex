@@ -140,6 +140,7 @@ public class CategoryController extends HttpServlet {
         // Get data from form
         String name = req.getParameter("name");
         int status = Integer.parseInt(req.getParameter("status"));
+        String image = req.getParameter("image");
         // Get file from form
         String fname = "";
         String uploadPath = Constant.UPLOAD_DIR;
@@ -156,9 +157,10 @@ public class CategoryController extends HttpServlet {
                 fname = System.currentTimeMillis() + "." + ext;
                 // Write file path
                 filePart.write(uploadPath + "/" + fname);
-            } else {
-                // Default image
-                fname = req.getParameter("image");
+            } else if (image != null) {
+                fname = image;
+            }else{
+                fname = "Dell-Inspiron-16-5630-onboard-9.jpg";
             }
         } catch (Exception e) {
             e.printStackTrace();

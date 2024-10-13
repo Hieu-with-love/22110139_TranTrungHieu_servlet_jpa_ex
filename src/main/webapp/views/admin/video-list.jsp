@@ -17,32 +17,26 @@
         <th>Description</th>
         <th>Status</th>
         <th>Views</th>
+        <th>Category</th>
         <th>Action</th>
     </tr>
 
     <c:forEach var="vid" items="${videos}" varStatus="STT">
         <tr class="odd gradeX">
-            <td>${STT.index + 1}</td>
             <td>${vid.id}</td>
             <td>${vid.title}</td>
+            <td>${vid.poster}</td>
+            <td>${vid.description}</td>
             <td>
-                <c:if test="${vid.poster.substring(0,5) != 'https'}">
-                    <c:url var="imgUrl" value="/downloadFile?fname=${vid.poster}"></c:url>
-                </c:if>
-                <c:if test="${vid.poster.substring(0,5) == 'https'}">
-                    <c:url var="imgUrl" value="${vid.poster}"></c:url>
-                </c:if>
-                <img height="150" width="200" src="${imgUrl}"/>
-            </td>
-            <td>${vid.desciption}</td>
-            <td>
-                <c:if test="${vid.status == 1}">
+                <c:if test="${vid.active == 1}">
                     <span class="label label-success">Active</span>
                 </c:if>
-                <c:if test="${vid.status == 0}">
+                <c:if test="${vid.active == 0}">
                     <span class="label label-danger">Inactive</span>
                 </c:if>
             </td>
+            <td>${vid.views}</td>
+            <td>${vid.category.getName()}</td>
             <td>
                 <a href="<c:url value='/admin/video/edit?id=${vid.id}'/>" class="center">Sửa</a>
                 |
