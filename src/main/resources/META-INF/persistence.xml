@@ -4,6 +4,9 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
              version="3.0">
     <persistence-unit name="jpa-hibernate-mysql">
+        <class>devzeus.com.demojpa.entities.Category</class>
+        <class>devzeus.com.demojpa.entities.Video</class>
+        <class>devzeus.com.demojpa.entities.User</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/servlet_jpa_ex"/>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

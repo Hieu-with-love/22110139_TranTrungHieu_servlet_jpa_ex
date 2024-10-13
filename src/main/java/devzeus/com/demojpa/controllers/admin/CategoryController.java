@@ -59,7 +59,7 @@ public class CategoryController extends HttpServlet {
                 throw new RuntimeException(e);
             }
             // Show list categories
-            resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
+            resp.sendRedirect(req.getContextPath() + "/admin/categories");
 
         }
     }
@@ -133,7 +133,7 @@ public class CategoryController extends HttpServlet {
         category.setStatus(status);
         categoryService.update(category);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
+        resp.sendRedirect(req.getContextPath() + "/admin/categories");
     }
 
     private void addCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -144,7 +144,8 @@ public class CategoryController extends HttpServlet {
         String fname = "";
         String uploadPath = Constant.UPLOAD_DIR;
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir(); // Create folder if not exist
+        if (!uploadDir.exists())
+            uploadDir.mkdirs(); // Create folder if not exist
         try {
             Part filePart = req.getPart("imageUpload");
             if (filePart.getSize() > 0) {
@@ -170,7 +171,7 @@ public class CategoryController extends HttpServlet {
         category.setStatus(status);
         categoryService.insert(category);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
+        resp.sendRedirect(req.getContextPath() + "/admin/categories");
     }
 
     private void showCategories(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

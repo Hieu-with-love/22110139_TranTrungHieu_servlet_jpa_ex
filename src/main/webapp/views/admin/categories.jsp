@@ -20,33 +20,36 @@
     </tr>
 
     <c:forEach var="cate" items="${categories}" varStatus="STT">
-        <tr class="odd gradeX">
-            <td>${STT.index + 1}</td>
-            <td>
-                <c:if test="${cate.image.substring(0,5) != 'https'}">
-                    <c:url var="imgUrl" value="/downloadFile?fname=${cate.image}"></c:url>
-                </c:if>
-                <c:if test="${cate.image.substring(0,5) == 'https'}">
+    <tr class="odd gradeX">
+        <td>${STT.index + 1}</td>
+        <td>
+            <c:choose>
+                <c:when test="${not empty cate.image && cate.image.startsWith('https')}">
                     <c:url var="imgUrl" value="${cate.image}"></c:url>
-                </c:if>
-                <img height="150" width="200" src="${imgUrl}"/>
-            </td>
-            <td>${cate.id}</td>
-            <td>${cate.name}</td>
-            <td>
-                <c:if test="${cate.status == 1}">
-                    <span class="label label-success">Active</span>
-                </c:if>
-                <c:if test="${cate.status == 0}">
-                    <span class="label label-danger">Inactive</span>
-                </c:if>
-            </td>
-            <td>
-                <a href="<c:url value='/admin/category/edit?id=${cate.id}'/>" class="center">Sửa</a>
-                |
-                <a href="<c:url value='/admin/category/delete?id=${cate.id}'/>" class="center">Xóa</a>
-            </td>
-        </tr>
-    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <c:url var="imgUrl" value="/downloadFile?fname=${cate.image}"></c:url>
+                </c:otherwise>
+            </c:choose>
+            <img height="150" width="200" src="${imgUrl}" />
+        </td>
+        <td>${cate.id}</td>
+        <td>${cate.name}</td>
+        <td>
+            <c:if test="${cate.status == 1}">
+                <span class="label label-success">Active</span>
+            </c:if>
+            <c:if test="${cate.status == 0}">
+                <span class="label label-danger">Inactive</span>
+            </c:if>
+        </td>
+        <td>
+            <a href="<c:url value='/admin/category/edit?id=${cate.id}'/>" class="center">Sửa</a>
+            |
+            <a href="<c:url value='/admin/category/delete?id=${cate.id}'/>" class="center">Xóa</a>
+        </td>
+    </tr>
+</c:forEach>
+
 
 </table>
