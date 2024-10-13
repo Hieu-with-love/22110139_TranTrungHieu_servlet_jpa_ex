@@ -38,7 +38,7 @@ public class CategoryController extends HttpServlet {
             showCategories(req, resp);
         } else if (url.contains("/admin/category/add")) {
             // Show form add category
-            req.getRequestDispatcher("/views/admin/category-add.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/category/category-add.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/edit")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
@@ -47,7 +47,7 @@ public class CategoryController extends HttpServlet {
             // Set data to form
             req.setAttribute("category", category);
             // Show form edit category
-            req.getRequestDispatcher("/views/admin/category-edit.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/category/category-edit.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/delete")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
@@ -179,6 +179,6 @@ public class CategoryController extends HttpServlet {
     private void showCategories(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Category> categories = categoryService.findAll();
         req.setAttribute("categories", categories);
-        req.getRequestDispatcher("/views/admin/categories.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/category/categories.jsp").forward(req, resp);
     }
 }

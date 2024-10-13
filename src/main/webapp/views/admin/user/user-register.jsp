@@ -18,8 +18,8 @@
     <label for="email">Email:</label><br>
     <input type="text" id="email" name="email" placeholder="Enter email"><br>
 
-    <label for="dayOfBird">Day of bird:</label><br>
-    <input type="text" id="dayOfBird" name="dayOfBird" placeholder="Enter password"><br>
+    <label for="dayOfBirth">Day of bird:</label><br>
+    <input type="date" id="dayOfBirth" name="dayOfBirth" placeholder="Enter password"><br>
 
     <label for="gender">Gender:</label><br>
     <select id="gender" name="gender">
@@ -28,11 +28,11 @@
         <option value="Không xác định">Not</option>
     </select>
 
-    <p>Status:</p>
-    <input type="radio" id="statuson" name="active" value="1" checked>
-    <label for="statuson">Active</label><br>
-    <input type="radio" id="statusoff" name="active" value="0">
-    <label for="statusoff">Inactive</label><br><br>
+    <label for="css">Active</label><br>
+    <input type="radio" id="on" name="active" value="1">
+    <label for="javascript">Hoat dong</label>
+    <input type="radio" id="off" name="active" value="0">
+    <label for="html">Khoa</label>
 
     <button type="submit">Tạo user</button>
 </form>

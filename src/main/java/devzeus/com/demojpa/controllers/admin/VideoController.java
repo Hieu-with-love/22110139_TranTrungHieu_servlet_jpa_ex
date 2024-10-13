@@ -28,7 +28,7 @@ public class VideoController extends HttpServlet {
     private void showVideos(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Video> videos = videoService.findAll();
         req.setAttribute("videos", videos);
-        req.getRequestDispatcher("/views/admin/video-list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/admin/video/video-list.jsp").forward(req, resp);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class VideoController extends HttpServlet {
             showVideos(req, resp);
         } else if (url.contains("/admin/video/add")) {
             // Show form add category
-            req.getRequestDispatcher("/views/admin/video-add.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/video/video-add.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/edit")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
@@ -51,7 +51,7 @@ public class VideoController extends HttpServlet {
             // Set data to form
             req.setAttribute("video", video);
             // Show form edit category
-            req.getRequestDispatcher("/views/admin/video-edit.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/video/video-edit.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/delete")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
@@ -63,7 +63,7 @@ public class VideoController extends HttpServlet {
                 throw new RuntimeException(e);
             }
             // Show list categories
-            resp.sendRedirect(req.getContextPath() + "/views/admin/video-list.jsp");
+            resp.sendRedirect(req.getContextPath() + "/admin/videos");
 
         }
     }
@@ -106,7 +106,7 @@ public class VideoController extends HttpServlet {
         if (req.getParameter("poster") != null){
             String poster = req.getParameter("poster");
         }
-        int status = Integer.parseInt(req.getParameter("Active"));
+        int status = Integer.parseInt(req.getParameter("active"));
         // Get file from form
         String fname = "";
         String uploadPath = Constant.UPLOAD_DIR;
@@ -142,7 +142,7 @@ public class VideoController extends HttpServlet {
         video.setDescription(description);
         videoService.update(video);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/views/admin/video-list");
+        resp.sendRedirect(req.getContextPath() + "/admin/videos");
     }
 
     private void createVideo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -51,7 +51,7 @@ public class UserController extends HttpServlet implements Serializable {
             // Set data to form
             req.setAttribute("user", user);
             // Show form edit category
-            req.getRequestDispatcher("/views/admin/category-edit.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/admin/user/user-edit.jsp").forward(req, resp);
         } else if (url.contains("/admin/category/delete")) {
             // Get id from url
             int id = Integer.parseInt(req.getParameter("id"));
@@ -63,7 +63,7 @@ public class UserController extends HttpServlet implements Serializable {
                 throw new RuntimeException(e);
             }
             // Show list categories
-            resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
+            resp.sendRedirect(req.getContextPath() + "/admin/users");
 
         }
     }
@@ -87,58 +87,35 @@ public class UserController extends HttpServlet implements Serializable {
         }
     }
 
-//    private void deleteCategory(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-//        // Get user from url
-//        String username = req.getParameter("username");
-//        // Delete data from database
-//        userService.delete(username);
-//
-//        showUsers(req, resp);
-//    }
-//
-//    private void editCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        // Get old data from database
-//        User user = userService.findByUsername(req.getParameter("username"));
-//        String oldImage = category.getImage();
-//        // Get data from form
-//        String name = req.getParameter("name");
-//        int status = Integer.parseInt(req.getParameter("status"));
-//        // Get file from form
-//        String fname = "";
-//        String uploadPath = Constant.UPLOAD_DIR;
-//        File uploadDir = new File(uploadPath);
-//        if (!uploadDir.exists()) uploadDir.mkdir(); // Create folder if not exist
-//        try {
-//            Part filePart = req.getPart("imageUpload");
-//            if (filePart.getSize() > 0) {
-//                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-//                // Change file name
-//                int index = fileName.lastIndexOf("."); // index of extend file .jpg, .png, .jpeg
-//                String ext = fileName.substring(index + 1); // extend file .jpg, .png, .jpeg
-//                fname = System.currentTimeMillis() + "." + ext;
-//                // Write file path
-//                filePart.write(uploadPath + "/" + fname);
-//            } else if (!req.getParameter("image").isEmpty()) {
-//                // Default image
-//                fname = req.getParameter("image");
-//            } else {
-//                fname = oldImage;
-//            }
-//            // Delete old image file on device
-//            File file = new File(uploadPath + "/" + oldImage);
-//            if (file.exists()) file.deleteOnExit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        // Insert data to database
-//        category.setName(name);
-//        category.setImage(fname);
-//        category.setStatus(status);
-//        categoryService.update(category);
-//        // Show list categories
-//        resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
-//    }
+    private void deleteCategory(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        // Get user from url
+        String username = req.getParameter("username");
+        // Delete data from database
+        userService.delete(username);
+
+        showUsers(req, resp);
+    }
+
+    private void editCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Get old data from database
+        int id = Integer.parseInt(req.getParameter("id"));
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        LocalDate dayOfBirth = LocalDate.parse(req.getParameter("dayOfBirth"));
+        int active = Integer.parseInt(req.getParameter("active"));
+        // Insert data to database
+        User user = userService.findByUsername(username);
+        user.setId(id);
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setDayOfBird(dayOfBirth);
+        user.setActive(active);
+        userService.update(user);
+        // Show list categories
+        resp.sendRedirect(req.getContextPath() + "/views/admin/categories.jsp");
+    }
 
     private void registerUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Get data from form
@@ -156,7 +133,7 @@ public class UserController extends HttpServlet implements Serializable {
         user.setActive(active);
         userService.register(user);
         // Show list categories
-        resp.sendRedirect(req.getContextPath() + "/views/admin/user/users-list.jsp");
+        resp.sendRedirect(req.getContextPath() + "/admin/users");
     }
 
     private void showUsers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

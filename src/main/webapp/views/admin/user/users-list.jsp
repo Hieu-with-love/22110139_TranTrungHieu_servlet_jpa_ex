@@ -17,7 +17,6 @@
         <th>Email</th>
         <th>Day of bird</th>
         <th>Gender</th>
-        <th>Status</th>
         <th>Action</th>
     </tr>
 
@@ -30,14 +29,7 @@
             <td>${user.password}</td>
             <td>${user.dayOfBird}</td>
             <td>${user.gender}</td>
-            <td>
-                <c:if test="${user.active == 1}">
-                    <span class="label label-success">Active</span>
-                </c:if>
-                <c:if test="${user.active == 0}">
-                    <span class="label label-danger">Inactive</span>
-                </c:if>
-            </td>
+
             <td>
                 <a href="<c:url value='/admin/category/edit?id=${user.id}'/>" class="center">Sửa</a>
                 |
